@@ -43,6 +43,9 @@
             <button type="submit" class="auth-input">확인</button>
         </div>
     </form>
+    <p>
+        이미 가입하셨나요? <a href="${pageContext.request.contextPath}/auth/login">로그인하기</a>
+    </p>
 </div>
 </body>
 </html>

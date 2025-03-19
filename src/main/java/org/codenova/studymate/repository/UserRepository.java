@@ -5,6 +5,7 @@ import org.codenova.studymate.model.User;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 @AllArgsConstructor
 public class UserRepository {
@@ -19,6 +20,6 @@ public class UserRepository {
     }
 
     public int updateLoginCountByUserId(String id) {
-        return template.update("user.updateLoginCountByUserId" , id);
+        return template.update("user.updateLoginCountByUserId", id);
     }
 }
