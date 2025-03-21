@@ -3,20 +3,17 @@ package org.codenova.studymate.controller;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.codenova.studymate.model.Avatar;
-import org.codenova.studymate.model.LoginLog;
-import org.codenova.studymate.model.User;
+import org.codenova.studymate.model.entity.User;
 import org.codenova.studymate.repository.AvatarRepository;
 import org.codenova.studymate.repository.LoginLogRepository;
 import org.codenova.studymate.repository.UserRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/auth")
@@ -58,6 +55,8 @@ public class AuthController {
         return "auth/login";
     }
 
+
+    @Transactional
     @RequestMapping("/login/verify")
     public String loginVerifyHandle(@RequestParam("id") String id,
                                     @RequestParam("password") String password,
@@ -69,17 +68,20 @@ public class AuthController {
         } else {
             userRepository.updateLoginCountByUserId(id);
             loginLogRepository.create(id);
+
             session.setAttribute("user", found);
-            LoginLog latest = loginLogRepository.findLatestByUserId(id);
-            System.out.println(latest);
+
             return "redirect:/index";
         }
     }
+
     @RequestMapping("/logout")
-    public  String logoutHandel(HttpSession session) {
+    public String logoutHandle(HttpSession session) {
+        // session.removeAttribute("user");
         session.invalidate();
         return "redirect:/index";
     }
+
 
 
 }

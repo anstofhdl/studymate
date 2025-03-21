@@ -29,7 +29,6 @@
             <li>내가 쓴 글</li>
             <li>가입신청 중인 그룹</li>
             <li><a href="${pageContext.request.contextPath}/auth/logout">로그아웃</a></li>
-
         </ul>
 
         <div class="content">
@@ -39,22 +38,22 @@
             <div class="account">
                 <h3>로그인 계정</h3>
                 <ul>
-                    <li>아이디 <span>${user.id}</span></li>
-                    <li>활동명 <span>${user.name}</span></li>
+                    <li>아이디 <span>${user.id }</span></li>
+                    <li>활동명 <span>${user.name }</span></li>
                 </ul>
             </div>
             <div class="info">
                 <h3>로그인 내역</h3>
                 <ul>
-                    <li>로그인 회수 <span>user.loginCount</span></li>
-                    <li>최근 로그인 <span>latestLog.loginAt</span></li>
+                    <li>로그인 회수 <span>${user.loginCount}</span></li>
+                    <li>최근 로그인 <span>${latestLog.loginAt.toString().replace('T', '  ')}</span></li>
                 </ul>
             </div>
             <div class="info">
                 <h3>활동 내역</h3>
                 <ul>
                     <li>참여한 그룹 <span>-</span></li>
-                    <li>총 공부시간 <span>${user.studyTime} h</span></li>
+                    <li>총 공부시간 <span>${user.studyTime}</span>h</li>
                 </ul>
             </div>
         </div>
