@@ -1,16 +1,19 @@
 package org.codenova.studymate.controller;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.codenova.studymate.model.entity.Avatar;
 import org.codenova.studymate.model.entity.StudyMember;
 import org.codenova.studymate.model.entity.User;
+import org.codenova.studymate.model.query.UserWithAvatar;
 import org.codenova.studymate.repository.AvatarRepository;
 import org.codenova.studymate.repository.StudyMemberRepository;
 import org.codenova.studymate.repository.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -21,11 +24,10 @@ public class WelcomeController {
     private StudyMemberRepository studyMemberRepository;
 
     @RequestMapping({"/", "/index"})
-    public String indexHandle(HttpSession session, Model model) {
-        if (session.getAttribute("user") == null) {
+    public String indexHandle(@SessionAttribute("user") @Nullable UserWithAvatar user, Model model) {
+        if (user == null) {
             return "index";
         } else {
-            User user = (User) session.getAttribute("user");
             model.addAttribute("user", user);
 
             Avatar userAvatar = avatarRepository.findById(user.getAvatarId());
