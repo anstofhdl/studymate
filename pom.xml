@@ -99,7 +99,12 @@
             <artifactId>mybatis-spring</artifactId>
             <version>3.0.4</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.ocpsoft.prettytime/prettytime -->
+        <dependency>
+            <groupId>org.ocpsoft.prettytime</groupId>
+            <artifactId>prettytime</artifactId>
+            <version>5.0.9.Final</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -25,10 +25,10 @@ background-color: #afafaf; color:white" placeholder="스터디 검색" value="${
         </div>
     </div>
 </div>
-<div style="padding : 20px 0px;">
-    <div class="study-main wrap" style="background-color: white;">
+<div style="padding : 20px 0px;background-color: #F5F6F8;">
+    <div class="study-main wrap">
         <div style="display: flex; gap:20px">
-            <div style="width: 200px;  ">
+            <div style="width: 200px; background-color: white ; padding : 12px">
                 <h2>${group.name}</h2>
                 <div style="font-size : 0.8em">
                     멤버 <span>${group.memberCount}</span> •
@@ -77,6 +77,44 @@ background-color: #afafaf; color:white" placeholder="스터디 검색" value="${
                     </c:otherwise>
                 </c:choose>
 
+            </div>
+
+            <div style="flex:1">
+                <h3 style="border-bottom: 1px solid rgba(0, 0, 0, .3); padding-bottom : 10px">게시글</h3>
+                <form action="${pageContext.request.contextPath}/study/${group.id}/post">
+                    <input type="hidden" name="groupId" value="${group.id}"/>
+                    <textarea style="width: 100%; height:100px; resize: none; padding : 4px" name="content"></textarea>
+                    <p style="text-align: right">
+                        <button type="submit" style="padding : 4px 12px;">게시</button>
+                    </p>
+                </form>
+
+                <c:forEach items="${postMetas}" var="one">
+                    <div style="margin: 6px 0px; background-color: white; padding: 16px;">
+                        <div style="display: flex; gap: 10px; align-items: center; ">
+                            <img src="${pageContext.request.contextPath}${one.writerAvatar}"
+                                 style="width: 48px;"/>
+                            <div>
+                                <b>${one.writerName}</b>
+                                <div style="font-size: small">${one.time}</div>
+                            </div>
+                        </div>
+                        <p style="font-size: small">
+                                ${one.id} |  ${one.content}
+                        </p>
+                        <div>
+                            <c:forEach items="${one.reactions}" var="t">
+                                <c:choose>
+                                    <c:when test="${t.feeling == 'happy'}"><span>😍</span></c:when>
+                                    <c:when test="${t.feeling == 'excited'}"><span>😆</span></c:when>
+                                    <c:when test="${t.feeling == 'sad'}"><span>😥</span></c:when>
+                                    <c:when test="${t.feeling == 'angry'}"><span>😡</span></c:when>
+                                    <c:otherwise><span>😐</span></c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </div>
