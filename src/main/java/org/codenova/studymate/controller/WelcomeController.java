@@ -1,6 +1,5 @@
 package org.codenova.studymate.controller;
 
-import io.micrometer.common.lang.Nullable;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.codenova.studymate.model.entity.Avatar;
@@ -10,6 +9,7 @@ import org.codenova.studymate.model.query.UserWithAvatar;
 import org.codenova.studymate.repository.AvatarRepository;
 import org.codenova.studymate.repository.StudyMemberRepository;
 import org.codenova.studymate.repository.UserRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,10 +30,9 @@ public class WelcomeController {
         } else {
             model.addAttribute("user", user);
 
-            Avatar userAvatar = avatarRepository.findById(user.getAvatarId());
-            model.addAttribute("userAvatar", userAvatar);
 
-            List<StudyMember> studyList =studyMemberRepository.findByUserId(user.getId());
+            var studyList = studyMemberRepository.findWithGroupDetailByUserId(user.getId());
+
             model.addAttribute("studyList", studyList);
 
 

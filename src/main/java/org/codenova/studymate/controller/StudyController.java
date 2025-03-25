@@ -29,11 +29,8 @@ public class StudyController {
     private PostRectionRepository postRectionRepository;
 
 
-    @ModelAttribute("user")
-    public UserWithAvatar addUser(@SessionAttribute("user") UserWithAvatar user) {
-        System.out.println("addUser...");
-        return user;
-    }
+
+
 
     @RequestMapping("/create")
     public String createHandle() {
@@ -126,7 +123,7 @@ public class StudyController {
         List<PostMeta> postMetas = new ArrayList<>();
 
         PrettyTime prettyTime = new PrettyTime();
-        for (Post post : posts) {
+         for (Post post : posts) {
 //            long b = Duration.between(post.getWroteAt(), LocalDateTime.now()).getSeconds();
 //            System.out.println(b);
             PostMeta cvt = PostMeta.builder()
@@ -135,7 +132,7 @@ public class StudyController {
                     .writerName(userRepository.findById(post.getWriterId()).getName())
                     .writerAvatar(avatarRepository.findById(userRepository.findById(post.getWriterId()).getAvatarId()).getImageUrl())
                     .time(prettyTime.format(post.getWroteAt()))
-                    .reactions(postRectionRepository.findByPostId(post.getId()))
+                    .reactions(postRectionRepository.countFeelingByPostId(post.getId()))
                     .build();
             postMetas.add(cvt);
         }
@@ -269,20 +266,23 @@ public class StudyController {
         PostReaction found =
                 postRectionRepository.findByWriterIdAndPostId(Map.of("writerId", user.getId(), "postId", postReaction.getPostId()));
 
-        if(found == null) {
-            postReaction.setWriterId(user.getId());
-            postRectionRepository.create(postReaction);
-        }else {
-//            postRectionRepository.deleteById(found.getId());
-  //          postRectionRepository.create(postReaction);
-
-//          postRectionRepository.updateFeelingById(postReaction);
+        if (found != null) {
+            postRectionRepository.deleteById(found.getId());
         }
 
-        return "redirect:/study/" + postReaction.getGroupId() ;
+        postReaction.setWriterId(user.getId());
+        postRectionRepository.create(postReaction);
+
+
+        return "redirect:/study/" + postReaction.getGroupId();
     }
 
 
 
 
+    @ModelAttribute("user")
+    public UserWithAvatar addUser(@SessionAttribute("user") UserWithAvatar user) {
+        System.out.println("addUser...");
+        return user;
+    }
 }
