@@ -83,7 +83,8 @@ background-color: #afafaf; color:white" placeholder="스터디 검색" value="${
                 <h3 style="border-bottom: 1px solid rgba(0, 0, 0, .3); padding-bottom : 10px">게시글</h3>
                 <form action="${pageContext.request.contextPath}/study/${group.id}/post">
                     <input type="hidden" name="groupId" value="${group.id}"/>
-                    <textarea style="width: 100%; height:100px; resize: none; padding : 4px" name="content"></textarea>
+                    <textarea style="width: 100%; height:100px; resize: none; padding : 4px" name="content"
+                    id="content"></textarea>
                     <p style="text-align: right">
                         <button type="submit" style="padding : 4px 12px;">게시</button>
                     </p>
@@ -99,7 +100,7 @@ background-color: #afafaf; color:white" placeholder="스터디 검색" value="${
                                 <div style="font-size: small">${one.time}</div>
                             </div>
                         </div>
-                        <p style="font-size: small">
+                        <p style="font-size: small; white-space: pre-wrap">
                                 ${one.id} |  ${one.content}
                         </p>
                         <div>
@@ -120,5 +121,19 @@ background-color: #afafaf; color:white" placeholder="스터디 검색" value="${
         </div>
     </div>
 </div>
+<script>
+    console.log(document.querySelector("#content"))
+    document.querySelector("#content"). onkeydown(function (e) {
+        console.log(e);
+        if(e.key == "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            console.log(e.target.parentNode);
+            e.target.parentNode.submit();
+        }
+
+    });
+</script>
+
+
 </body>
 </html>
